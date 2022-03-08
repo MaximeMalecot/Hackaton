@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Brand generate{% endblock %}
+
+{% block body %}
+    <h1>Report generation</h1>
+    <form id="apiForm">
+        <label for="report">Votre rapport</label>
+        <input id="report" name="report" type="file" accept="text/csv"/>
+    </form>
+
+    <div id="readerOptions">
+    </div>
+
+<script type="text/javascript"> 
+    const form = document.getElementById("apiForm");
+    form.addEventListener("change", (e) => {
+        e.preventDefault();
+        console.log(e.target.files[0]);
+        //fetch() 
+    })
+</script>
+{% endblock %}

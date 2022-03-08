@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Brand index{% endblock %}
+
+{% block body %}
+    <h1>Brand index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Label</th>
+                <th>Icon</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% if brands %}
+            {% for brand in brands %}
+                <tr>
+                    <td>{{ brand.id }}</td>
+                    <td>{{ brand.label }}</td>
+                    <td>{{ brand.icon }}</td>
+                    <td>
+                        <a href="{{ path('brand_show', {'id': brand.id}) }}">show</a>
+                        <a href="{{ path('brand_edit', {'id': brand.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('brand_new') }}">Create new</a>
+{% endblock %}
