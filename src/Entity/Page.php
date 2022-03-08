@@ -19,10 +19,10 @@ class Page
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string|null
      *
      * @Gedmo\Slug(fields={"label"})
-     * @ORM\Column(length=128, unique=true)
+     * @ORM\Column(length=255, unique=true)
      */
     private $slug;
 
