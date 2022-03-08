@@ -61,6 +61,14 @@ services:
     ports:
       - 1080:1080
 
+  adminer:
+    depends_on:
+      - mailcatcher
+      - db
+    image: adminer
+    ports:
+      - 8080:8080
+
 volumes:
   db-data: {}
   app-cache: {}
