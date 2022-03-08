@@ -45,6 +45,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $isVerified = false;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Brand::class, inversedBy="users")
+     */
+    private $brand;
+
     public function __construct()
     {
 
@@ -147,6 +152,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getBrand(): ?Brand
+    {
+        return $this->brand;
+    }
+
+    public function setBrand(?Brand $brand): self
+    {
+        $this->brand = $brand;
 
         return $this;
     }
