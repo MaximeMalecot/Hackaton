@@ -1,13 +1,13 @@
 
 ###> symfony/framework-bundle ###
 .env
-/.env.local
-/.env.local.php
-/.env.*.local
-/config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
-/var/
-/vendor/
+.env.local
+.env.local.php
+.env.*.local
+config/secrets/prod/prod.decrypt.private.php
+public/bundles/
+var/
+vendor/
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
@@ -24,3 +24,18 @@
 .idea
 **/.DS_Store
 ###< IDE/OS ###
+
+tmp
+backups
+wordpress/*
+!wordpress/wp-content
+
+wordpress/wp-content/*
+!wordpress/wp-content/plugins
+!wordpress/wp-content/themes
+
+wordpress/wp-content/plugins/*
+!wordpress/wp-content/plugins/.gitkeep
+
+wordpress/wp-content/themes/*
+!wordpress/wp-content/themes/.gitkeep
