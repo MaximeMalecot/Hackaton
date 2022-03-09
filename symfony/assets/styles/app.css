@@ -1,0 +1,32 @@
+:root {
+    --primary: #153B4C;
+
+    --menu_height: 37px;
+}
+
+.top-bar, aside {
+    display: flex;
+    min-height: var(--menu_height);
+    justify-content: space-between;
+    background-color: var(--primary);
+    color: white;
+    padding: 5px;
+}
+.top-bar a, aside a {
+    text-decoration: none;
+    color: white;
+    font-size: large;
+}
+
+
+aside {
+    min-height: calc(100vh - var(--menu_height));
+}
+aside li {
+    min-width: 100px;
+    padding: 5px 10px;
+}
+
+.content {
+    display: flex;
+}
