@@ -28,14 +28,14 @@ vendor/
 tmp
 backups
 wordpress/*
-!wordpress/wp-content
-
-wordpress/wp-content/*
-!wordpress/wp-content/plugins
-!wordpress/wp-content/themes
 
 wordpress/wp-content/plugins/*
 !wordpress/wp-content/plugins/.gitkeep
 
+!wordpress/wp-content/
+!wordpress/wp-content/*
+
 wordpress/wp-content/themes/*
+!wordpress/wp-content/themes/hello-elementor
+!wordpress/wp-content/themes/wired_beauty
 !wordpress/wp-content/themes/.gitkeep
