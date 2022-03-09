@@ -5,24 +5,43 @@
     <title>{% block title %}Welcome!{% endblock %}</title>
     {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     {% block stylesheets %}
-        {#{{ encore_entry_link_tags('app') }}#}
+        {{ encore_entry_link_tags('app') }}
     {% endblock %}
 
     {% block javascripts %}
-        {#{{ encore_entry_script_tags('app') }}#}
+        {{ encore_entry_script_tags('app') }}
     {% endblock %}
 </head>
 <body>
-<nav class="red">
-    <div class="nav-wrapper">
-        <a href="#" class="brand-logo">Logo</a>
-    </div>
-</nav>
+<div class="top-bar">
+    <a href="{{ path('app_home') }}" class="brand-logo">Logo</a>
+    {% if app.user %}
+        <a href="{{ path('app_logout') }}"><i class="fa fa-sign-out"></i></a>
+    {% else %}
+        <a href="{{ path('app_login') }}"><i class="fa fa-sign-in"></i></a>
+    {% endif %}
+</div>
 
-<div class="container">
-    {% block body %}{% endblock %}
+<div class="content">
+    <aside>
+        <ul>
+            <li>
+                <a href="{{ path('app_login') }}">Tests</a>
+            </li>
+            <li>
+                <a href="{{ path('app_login') }}">Reports</a>
+            </li>
+            <li>
+                <a href="{{ path('app_login') }}">Brands</a>
+            </li>
+        </ul>
+    </aside>
+    <div class="container">
+        {% block body %}{% endblock %}
+    </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
