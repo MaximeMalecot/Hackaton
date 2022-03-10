@@ -52,7 +52,7 @@ class BrandController extends AbstractController
             $brand = $security->getUser()->getBrand();
             $em = $doctrine->getManager();
             //looping
-            if(!count(array_unique($dataParams))<count($dataParams) && $brand){
+            if(!(count(array_unique($dataParams))<count($dataParams))){
                 if (($fp = fopen($request->files->get('report'), "r")) !== FALSE) {
                     while (($row = fgetcsv($fp, 1000, ";")) !== FALSE) {
                         $product = $em->getRepository(Product::class)->findBy(['label' => $request->request->get('product')])[0]??null;
@@ -82,7 +82,9 @@ class BrandController extends AbstractController
                     $em->flush();
                     $this->addFlash('success', 'Votre csv a bien été importé');
                 }
-            }//error
+            }else {
+                $this->addFlash('error', 'Vous ne pouvez pas utiliser une même colonne pour plusieurs données.');
+            }
         }
         return $this->render('brand/generate.html.twig');
     }
@@ -90,11 +92,6 @@ class BrandController extends AbstractController
     #[Route('/readcsv', name: 'brand_readcsv', methods: ['POST'])]
     public function readCsv(Request $request): Response
     {
-        /*$csvFile = file($request->files->get('report'));
-        $data = $csvFile[0];
-        /*foreach ($csvFile as $line) {
-            $data[] = str_getcsv($line);
-        }*/
         if (($handle = fopen($request->files->get('report'), "r")) !== FALSE) {
             $data = fgetcsv($handle, 1000, ";");
         }
