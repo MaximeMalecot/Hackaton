@@ -1,0 +1,12 @@
+easy_admin:
+  entities:
+    Brand:
+      list:
+        fields:
+          - { property: 'icon', type: 'image', base_path: '%app.path.brand_documents%' }
+      show:
+        fields:
+          - { property: 'icon', type: 'image', base_path: '%app.path.brand_documents%' }
+      form:
+        fields:
+          - { property: 'imageFile', type: 'file' }
