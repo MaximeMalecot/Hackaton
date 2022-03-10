@@ -44,9 +44,15 @@ class ReportController extends AbstractController
     }
 
     #[Route('/report/product/{id}', name: 'report_product')]
-    public function showProductReport(Product $product): Response
+    public function showProductReport(Product $product, ManagerRegistry $doctrine): Response
     {
-        dd('notyet');
+        //$em = $doctrine->getManager();
+        $tests = $product->getTests()->getValues();
+        $records = null;
+        foreach ($tests as $test) {
+            $records[$test->getNbSession()][] = $test->getRecords()->getValues();
+        }
+        dd($records);
         return $this->render('report/products.html.twig', [ 
             'products' => $pr->findBy([
                 'brand' => $brand

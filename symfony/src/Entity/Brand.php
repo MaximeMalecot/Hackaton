@@ -106,6 +106,12 @@ class Brand
         return $this;
     }
 
+    public function setUpdatedAt(\DateTime $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
     /**
      * @return Collection|User[]
      */
