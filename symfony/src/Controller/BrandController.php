@@ -46,7 +46,7 @@ class BrandController extends AbstractController
 
     #[IsGranted(BrandVoter::GENERATE)]
     #[Route('/generate', name: 'brand_generate', methods: ['GET', 'POST'])]
-    public function generateFromCsv(Request $request,ManagerRegistry $doctrine, ProductRepository $pr, BrandRepository $br, Security $security): Response 
+    public function generateFromCsv(Request $request,ManagerRegistry $doctrine, Security $security): Response 
     {
         if($request->isMethod('post')){
             $dataParams = array(
@@ -59,28 +59,30 @@ class BrandController extends AbstractController
             if (($handle = fopen($request->files->get('report'), "r")) !== FALSE) {
                 $data = fgetcsv($handle, 1000, ";");
             }
-            $brand = $security->getUser()->getBrand();
-            $em = $doctrine->getManager();
             //looping
             if(!(count(array_unique($dataParams))<count($dataParams))){
+                $em = $doctrine->getManager();
                 if (($fp = fopen($request->files->get('report'), "r")) !== FALSE) {
+                    $row = fgetcsv($fp, 1000, ";");
                     while (($row = fgetcsv($fp, 1000, ";")) !== FALSE) {
-                        $product = $em->getRepository(Product::class)->findBy(['label' => $request->request->get('product')])[0]??null;
+                        $product = $em->getRepository(Product::class)->findOneBy(['label' => $row[$request->request->get('product')]]);
                         if( !$product ){
                             $product = new Product();
                             $product->setLabel($row[$request->request->get('product')]);
-                            $product->setBrand($brand);
+                            $product->setBrand($security->getUser()->getBrand());
                             $em->persist($product);
+                            $em->flush();
                         }
-                        $test = $em->getRepository(Test::class)->findBy([
+                        $test = $em->getRepository(Test::class)->findOneBy([
                             'nbSession' => intval($row[$request->request->get('session')]),
                             'product' => $product
-                        ])[0]??null;
+                        ]);
                         if( !$test){
                             $test = new Test();
                             $test->setNbSession(intval($row[$request->request->get('session')]));
                             $test->setProduct($product);
                             $em->persist($test);
+                            $em->flush();
                         }
                         $record = new Record();
                         $record->setCodeZone(intval($row[$request->request->get('zone')]));
