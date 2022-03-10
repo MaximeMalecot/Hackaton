@@ -26,7 +26,7 @@ class BrandVoter extends Voter
 
         switch ($attribute) {
             case self::GENERATE:
-                return  in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_BRAND', $user->getRoles());
+                return (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_BRAND', $user->getRoles())) && $user->getBrand();
                 break;
         }
 
