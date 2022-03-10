@@ -17,7 +17,13 @@
 </head>
 <body>
 <div class="top-bar">
-    <a href="{{ path('app_home') }}" class="brand-logo">Logo</a>
+    {% if app.user.brand is not null %}
+        <a href="{{ path('app_home') }}" class="brand-logo">
+            <img class="icon" src="{{ vich_uploader_asset(app.user.brand, 'imageFile') }}" alt="{{ app.user.brand.label }}">
+        </a>
+    {% else %}
+        <a href="{{ path('app_home') }}" class="brand-logo">Wired Beauty</a>
+    {% endif %}
     {% if app.user %}
         <a href="{{ path('app_logout') }}"><i class="fa fa-sign-out"></i></a>
     {% else %}
@@ -34,9 +40,16 @@
             <li>
                 <a href="{{ path('app_login') }}">Reports</a>
             </li>
+            {% if is_granted('ROLE_BRAND') and app.user.brand is not null %}
+                <li>
+                    <a href="{{ path('brand_access', {'id': app.user.brand.id}) }}">My brand</a>
+                </li>
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
             <li>
-                <a href="{{ path('app_login') }}">Brands</a>
+                <a href="{{ path('brand_index') }}">Brands</a>
             </li>
+            {% endif %}
         </ul>
     </aside>
     <div class="container">
