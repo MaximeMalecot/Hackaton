@@ -6,6 +6,7 @@ use App\Entity\Brand;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class BrandType extends AbstractType
 {
@@ -13,7 +14,15 @@ class BrandType extends AbstractType
     {
         $builder
             ->add('label')
-            ->add('icon')
+            ->add('imageFile', VichImageType::class, [
+                'required' => true,
+                'allow_delete' => true,
+                'delete_label' => '...',
+                'download_label' => '...',
+                'download_uri' => true,
+                'image_uri' => true,
+                'asset_helper' => true,
+            ])
         ;
     }
 

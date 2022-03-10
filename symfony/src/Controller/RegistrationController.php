@@ -62,6 +62,38 @@ class RegistrationController extends AbstractController
         ]);
     }
 
+    #[Route('/register/{id}', name: 'app_register_brand')]
+    public function registerAccess(int $id, Request $request, UserPasswordHasherInterface $userPasswordHasherInterface) {
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->find($id);
+
+        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($user && $user->isVerified()) {
+            return $this->redirect('http://localhost:8888/', 301);
+        }
+
+        if ($user && $form->isSubmitted() && $form->isValid()) {
+            /** @var User $user */
+            $user->setPassword(
+                $userPasswordHasherInterface->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+            $user->setIsVerified(true);
+            $entityManager->flush();
+
+
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->render('registration/register.html.twig', [
+            'registrationForm' => $form->createView(),
+        ]);
+    }
+
     #[Route('/verify/email', name: 'app_verify_email')]
     public function verifyUserEmail(Request $request, UserRepository $userRepository): Response
     {

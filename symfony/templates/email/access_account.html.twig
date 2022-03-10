@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f3f3f3;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+        a {
+            text-decoration: none;
+            background-color: #153B4C;
+            color: white;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div>
+        <p>Finalize your access to Wired Beauty by clicking on the link below:</p>
+        <a href="{{ absolute_url(path('app_register_brand', {'id' : user.id})) }}">Create my access</a>
+    </div>
+</div>
+</body>
+</html>

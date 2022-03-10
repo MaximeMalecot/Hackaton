@@ -3,28 +3,39 @@
 namespace App\Controller;
 
 use App\Entity\Brand;
+use App\Entity\User;
 use App\Entity\Product;
 use App\Entity\Record;
 use App\Entity\Test;
+use App\Form\AccessBrandType;
+use App\Form\BrandType;
+use App\Repository\ProductRepository;
 use App\Repository\BrandRepository;
 use Doctrine\Persistence\ManagerRegistry;
-
-use App\Form\BrandType;
 use App\Form\BrandGenerateType;
-
-use App\Security\Voter\BrandVoter;
-use Symfony\Component\Security\Core\Security;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Security\Voter\BrandVoter;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 #[Route('/brand')]
 class BrandController extends AbstractController
 {
+    private $router;
+
+    public function __construct(UrlGeneratorInterface $router)
+    {
+        $this->router = $router;
+    }
+
     #[Route('/', name: 'brand_index', methods: ['GET'])]
     public function index(BrandRepository $brandRepository): Response
     {
@@ -127,8 +138,6 @@ class BrandController extends AbstractController
         ]);
     }
 
-    
-/*
     #[Route('/{id}', name: 'brand_show', methods: ['GET'])]
     public function show(Brand $brand): Response
     {
@@ -139,6 +148,7 @@ class BrandController extends AbstractController
 
     
     #[Route('/{id}/edit', name: 'brand_edit', methods: ['GET','POST'])]
+    #[Route('/access/edit/{id}', name: 'brand_access_edit')]
     public function edit(Request $request, Brand $brand): Response
     {
         $form = $this->createForm(BrandType::class, $brand);
@@ -166,5 +176,43 @@ class BrandController extends AbstractController
         }
 
         return $this->redirectToRoute('brand_index', [], Response::HTTP_SEE_OTHER);
-    }*/
+    }
+
+    #[Route('/access/{id}', name: 'brand_access')]
+    public function access(Request $request, Brand $brand, MailerInterface $mailer): Response
+    {
+        $user = new User();
+
+        $form = $this->createForm(AccessBrandType::class, $user);
+        $form->handleRequest($request);
+
+        if (!$user->isVerified() && $form->isSubmitted() && $form->isValid()) {
+            $user->setBrand($brand);
+            $user->setRoles(['ROLE_BRAND']);
+            $user->setPassword('isCreation');
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $email = (new TemplatedEmail())
+                ->from('wiredbeauty@support.fr')
+                ->to($user->getEmail())
+                ->subject('Wired Beauty - Create your access account')
+                ->text('Your account access !')
+                ->htmlTemplate('email/access_account.html.twig')
+                ->context([
+                    'user' => $user,
+                ]);
+
+            $mailer->send($email);
+
+            return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('brand/access.html.twig', [
+            'brand' => $brand,
+            'form' => $form
+        ]);
+    }
 }
