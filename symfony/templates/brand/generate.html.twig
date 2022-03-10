@@ -4,20 +4,67 @@
 
 {% block body %}
     <h1>Report generation</h1>
-    <form id="apiForm">
+    <form id="apiForm" method="post" enctype="multipart/form-data">
         <label for="report">Votre rapport</label>
         <input id="report" name="report" type="file" accept="text/csv"/>
+        <div id="formSelect" style="display:none">
+            <label for="product" >Colonne produit</label>
+            <select id="product" name="product">
+            </select>
+            <label for="session" >Colonne session</label>
+            <select id="session" name="session">
+            </select>
+            <label for="zone" >Colonne zone testée</label>
+            <select id="zone" name="zone">
+            </select>
+            <label for="biosens" >Colonne capacitée testée</label>
+            <select id="biosens" name="biosens">
+            </select>
+            <label for="result" >Colonne mesure</label>
+            <select id="result" name="result">
+            </select>
+            <button type="submit" name="submit">Save</button>
+        </div>
     </form>
 
-    <div id="readerOptions">
-    </div>
 
 <script type="text/javascript"> 
-    const form = document.getElementById("apiForm");
-    form.addEventListener("change", (e) => {
-        e.preventDefault();
-        console.log(e.target.files[0]);
-        //fetch() 
+    const report = document.getElementById("report");
+    report.addEventListener("change", async (e) => {
+        var data = new FormData();
+        data.append('report', e.target.files[0])
+        fetch('{{ path('brand_readcsv') }}', {
+            method: 'POST', 
+            headers: {
+                "Accept": "application/json"
+            },
+            body: data
+        })
+        .then(response => response.json())
+        .then(data => setOptions(data.columns));
     })
+
+    function setOptions(availableOptions){
+        let options = [];
+        
+        const form = document.getElementById('apiForm');
+        const childs = form.children;
+        const div = document.getElementById('formSelect');
+        div.style.display = 'block';
+        for(let child of div.children){
+            if(window.getComputedStyle(child)){
+                child.removeAttribute('hidden');
+                child.style.display = 'block';
+            }
+            if(child.tagName.toLowerCase() == 'select'){
+                availableOptions.map((option, index) => {
+                    let DOMElem = document.createElement("option");
+                    DOMElem.value = index;
+                    DOMElem.text = option;
+                    child.appendChild(DOMElem);
+                })
+            }
+        }
+    }
 </script>
 {% endblock %}

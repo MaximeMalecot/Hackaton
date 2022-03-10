@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\User;
+use App\Entity\Brand;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -22,10 +23,15 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
+        $brand = (new Brand())
+            ->setLabel('BrandTest')
+            ->setIcon('padicon');
+        $manager->persist($brand);
         $admin = (new User())
             ->setEmail('admin@admin')
             ->setIsVerified(true)
             ->setRoles(['ROLE_ADMIN'])
+            ->setBrand($brand)
         ;
         $admin->setPassword($this->userPasswordHasher->hashPassword($admin, 'test'));
         $manager->persist($admin);
