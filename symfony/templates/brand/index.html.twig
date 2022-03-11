@@ -3,7 +3,11 @@
 {% block title %}Brand index{% endblock %}
 
 {% block body %}
-    <h1>Brand index</h1>
+    <div class="buttonTitle">
+        <h1>Brand index</h1>
+
+        <a class="cta" href="{{ path('brand_new') }}">Create new</a>
+    </div>
 
     <table class="table">
         <thead>
@@ -11,7 +15,8 @@
                 <th>Id</th>
                 <th>Label</th>
                 <th>Icon</th>
-                <th>actions</th>
+                <th>Actions</th>
+                <th>Access</th>
             </tr>
         </thead>
         <tbody>
@@ -22,8 +27,11 @@
                     <td>{{ brand.label }}</td>
                     <td><img width="70px" src="{{ vich_uploader_asset(brand, 'imageFile') }}" alt="logo manquant"></td>
                     <td>
-                        <a href="{{ path('brand_show', {'id': brand.id}) }}">show</a>
-                        <a href="{{ path('brand_edit', {'id': brand.id}) }}">edit</a>
+                        <a class="cta" href="{{ path('brand_show', {'id': brand.id}) }}">Show</a>
+                        <a class="cta" href="{{ path('brand_edit', {'id': brand.id}) }}">Edit</a>
+                    </td>
+                    <td>
+                        <a class="cta" href="{{ path('brand_access', {'id': brand.id}) }}">Manage</a>
                     </td>
                 </tr>
             {% endfor %}
@@ -34,6 +42,4 @@
         {% endif %}
         </tbody>
     </table>
-
-    <a href="{{ path('brand_new') }}">Create new</a>
 {% endblock %}

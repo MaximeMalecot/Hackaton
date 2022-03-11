@@ -5,9 +5,11 @@ namespace App\Controller;
 
 use App\Entity\Brand;
 use App\Entity\Product;
+use App\Entity\Test;
 use App\Repository\ProductRepository;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -44,16 +46,27 @@ class ReportController extends AbstractController
     }
 
     #[Route('/report/product/{id}', name: 'report_product')]
-    public function showProductReport(Product $product): Response
+    public function showProductReport(Request $request, Product $product, ManagerRegistry $doctrine): Response
     {
-        dd('notyet');
-        return $this->render('report/products.html.twig', [ 
-            'products' => $pr->findBy([
-                'brand' => $brand
-            ])
+        $em = $doctrine->getManager();
+        if(!$request->request->get('session')){
+            $session = 1;
+        }else{
+            $session = $request->query->get('session');
+        }
+        $tests = $em->getRepository(Test::class)->findBy([
+            'product' => $product    
+        ]);
+        $availableSessions = [];
+        foreach($tests as $test){
+            if($test->getNbSession() == $session){
+                $records = $test->getRecords()->getValues();
+            }
+            $availableSessions[] = $test->getNbSession();
+        }
+        return $this->render('report/charts.html.twig', [
+            'sessions'=> $availableSessions,
+            'records' => $records
         ]);
     }
-
-
-
 }

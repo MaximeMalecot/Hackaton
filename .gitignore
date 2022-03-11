@@ -27,3 +27,17 @@ vendor/
 
 tmp
 backups
+wordpress/*
+
+db-data/
+
+wordpress/wp-content/plugins/*
+!wordpress/wp-content/plugins/.gitkeep
+
+!wordpress/wp-content/
+!wordpress/wp-content/*
+
+wordpress/wp-content/themes/*
+!wordpress/wp-content/themes/hello-elementor
+!wordpress/wp-content/themes/wired_beauty
+!wordpress/wp-content/themes/.gitkeep
