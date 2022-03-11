@@ -18,7 +18,11 @@
 </head>
 <body>
 <div class="top-bar">
-    {% if app.user is defined and app.user.brand is defined and app.user.brand is not null %}
+    <div id="responsiveMenu">
+        <i class="fa fa-bars"></i>
+    </div>
+
+    {% if app.user is not null and app.user.brand is not null %}
         <a href="{{ path('app_home') }}" class="brand-logo">
             <img class="icon" src="{{ vich_uploader_asset(app.user.brand, 'imageFile') }}" alt="{{ app.user.brand.label }}">
         </a>
@@ -33,7 +37,8 @@
 </div>
 
 <div class="content">
-    <aside>
+  {% if app.user %}
+      <aside id="menu">
         <ul>
             <li>
                 <a href="{{ path('brand_generate') }}">Test</a>
@@ -43,16 +48,42 @@
             </li>
             {% if is_granted('ROLE_BRAND') and app.user.brand is not null %}
                 <li>
-                    <a href="{{ path('brand_access', {'id': app.user.brand.id}) }}">My brand</a>
+                    <a href="{{ path('app_login') }}">
+                        <i class="fa fa-th-large"></i> Dashboard
+                    </a>
                 </li>
-            {% endif %}
-            {% if is_granted('ROLE_ADMIN') %}
-            <li>
-                <a href="{{ path('brand_index') }}">Brands</a>
-            </li>
-            {% endif %}
-        </ul>
-    </aside>
+                <li>
+                    <a href="{{ path('app_login') }}">
+                        <i class="fa fa-line-chart"></i> Tests
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('app_login') }}">
+                        <i class="fa fa-pie-chart"></i> Reports
+                    </a>
+                </li>
+                {% if is_granted('ROLE_BRAND') and app.user is not null and app.user.brand is not null %}
+                    <li>
+                        <a href="{{ path('brand_access', {'id': app.user.brand.id}) }}">
+                            <i class="fa fa-star"></i> Produits
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('brand_access', {'id': app.user.brand.id}) }}">
+                            <i class="	fa fa-archive"></i> My brand
+                        </a>
+                    </li>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                <li>
+                    <a href="{{ path('brand_index') }}">
+                        <i class="fa fa-archive"></i> Brands
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </aside>
+    {% endif %}
     <div class="container">
         {% block body %}{% endblock %}
     </div>
@@ -60,6 +91,10 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script>
+    document.getElementById('responsiveMenu').addEventListener('click', function() {
+        document.getElementById('menu').classList.toggle('show');
+    })
+
     {% for type, messages in app.flashes() %}
         {% for message in messages %}
             M.toast({html: '{{ message }}', classes: '{{ type }}'})

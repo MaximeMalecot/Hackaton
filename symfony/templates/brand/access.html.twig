@@ -3,11 +3,18 @@
 {% block title %}Access Brand{% endblock %}
 
 {% block body %}
-    <h1>Access Brand</h1>
+<div class="simpleContainer">
+    <h2>Access Brand</h2>
 
     <p>Give access to a member by sending an email.</p>
 
     {{ include('brand/_form.html.twig', {'button_label': 'Send'}) }}
+</div>
 
-    <a href="{{ path('brand_access_edit', {'id': brand.id}) }}">Edit</a>
+<div class="simpleContainer">
+    <div class="buttonTitle">
+        <h2>Edit Brand</h2>
+        <a class="cta" href="{{ path('brand_access_edit', {'id': brand.id}) }}">Edit</a>
+    </div>
+</div>
 {% endblock %}
