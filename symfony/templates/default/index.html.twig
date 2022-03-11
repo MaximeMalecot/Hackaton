@@ -3,18 +3,26 @@
 {% block title %}Hello DefaultController!{% endblock %}
 
 {% block body %}
-<div class="multipleContainer">
-    <div class="simpleContainer">
-        <h2>Chart 1</h2>
-
-        {{ render_chart(chart) }}
-    </div>
-
-    <div class="simpleContainer">
-        <h2>Chart 2</h2>
-    </div>
+<div class="simpleContainer multipleContainer">
+    {% for data in simpleData %}
+        <div class="simpleContainer">
+            <h2>{{ data.label }}</h2>
+            <p class="statIndicator">{{ data.value }}</p>
+        </div>
+    {% endfor %}
 </div>
-<div class="simpleContainer">
-    <h2>Chart 3</h2>
+
+<div class="multipleContainer">
+    {% if product is not null and product.id %}
+        <div class="simpleContainer">
+            <h2>Last test</h2>
+
+            <div style="display: flex;">
+                {% for session in availableSessions %}
+                    <a class="cta" style="margin: auto;" href="{{ path('report_product', {'id': product.id, 'session': session }) }}">Session {{ loop.index }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
 </div>
 {% endblock %}

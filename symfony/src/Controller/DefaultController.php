@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Product;
+use App\Entity\Record;
 use App\Entity\Test;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,26 +19,35 @@ class DefaultController extends AbstractController
     {
         $entityManger = $this->getDoctrine()->getManager();
 
-        $tests = $entityManger->getRepository(Test::class)
-            ->findBy([]);
-
-        $chart = $chartBuilder->createChart(Chart::TYPE_LINE);
-
-        $chart->setData([
-            'labels' => ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            'datasets' => [
-                [
-                    'label' => 'My First dataset',
-                    'backgroundColor' => 'rgb(255, 99, 132)',
-                    'borderColor' => 'rgb(255, 99, 132)',
-                    'data' => [0, 10, 5, 2, 20, 30, 45],
-                ],
-            ],
-        ]);
+        $availableSessions = [];
+        $test = $entityManger->getRepository(Test::class)->findOneBy(
+            [],
+            ['id' => 'DESC']
+        );
+        if ($test) {
+            for ($i = 0; $i < $test->getNbSession(); $i ++) {
+                $availableSessions[] = ($i + 1);
+            }
+        }
 
         return $this->render('default/index.html.twig', [
             'controller_name' => 'index',
-            'chart' => $chart,
+            'availableSessions' => $availableSessions,
+            'product' => $test && $test->getProduct() ? $test->getProduct() : null,
+            'simpleData' => [
+                'products' => [
+                    'label' => 'Nb. products',
+                    'value' => count($entityManger->getRepository(Product::class)->findAll())
+                ],
+                'tests' => [
+                    'label' => 'Nb. tests',
+                    'value' => count($entityManger->getRepository(Test::class)->findAll())
+                ],
+                'records' => [
+                    'label' => 'Nb. records',
+                    'value' => count($entityManger->getRepository(Record::class)->findAll())
+                ],
+            ]
         ]);
     }
 }

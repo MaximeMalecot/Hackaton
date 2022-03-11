@@ -13,8 +13,6 @@ class ProductType extends AbstractType
     {
         $builder
             ->add('label')
-            ->add('brand')
-            ->add('category')
         ;
     }
 

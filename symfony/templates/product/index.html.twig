@@ -23,14 +23,14 @@
                 <td>{{ product.id }}</td>
                 <td>{{ product.label }}</td>
                 <td>
-                    <a href="{{ path('app_product_show', {'id': product.id}) }}">show</a>
-                    <a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>
+                    <a class="cta" href="{{ path('app_product_show', {'id': product.id}) }}">show</a>
+                    <a class="cta" href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>
                 </td>
             </tr>
             <tr class="emptyRow"></tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="3">No records found</td>
             </tr>
         {% endfor %}
         </tbody>

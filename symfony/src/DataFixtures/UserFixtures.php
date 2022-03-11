@@ -24,12 +24,12 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $brand = (new Brand())
-            ->setLabel('BrandTest')
-            ->setIcon('padicon')
+            ->setLabel('WiredBeauty')
+            ->setIcon('wired_beauty_logo.png')
             ->setUpdatedAt(new \DateTime());
         $manager->persist($brand);
         $admin = (new User())
-            ->setEmail('admin@admin')
+            ->setEmail('admin@admin.fr')
             ->setIsVerified(true)
             ->setRoles(['ROLE_ADMIN'])
             ->setBrand($brand)
@@ -39,7 +39,7 @@ class UserFixtures extends Fixture
         $this->setReference(self::USER_ADMIN, $admin);
 
         $user = (new User())
-            ->setEmail('user@user')
+            ->setEmail('user@user.fr')
             ->setIsVerified(true)
             ->setRoles(['ROLE_USER'])
         ;
