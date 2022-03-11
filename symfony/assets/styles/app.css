@@ -11,6 +11,10 @@
     --added_shadow: 5px 5px 15px 5px #3c3c3c0e;
 }
 
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
 h1 {
     font-size: 28px;
 }
@@ -21,6 +25,7 @@ h2 {
 }
 
 .top-bar {
+    z-index: 4;
     display: flex;
     min-height: var(--menu_height);
     justify-content: space-between;
@@ -38,6 +43,7 @@ h2 {
     box-shadow: var(--added_shadow);
 }
 #menu {
+    z-index: 3;
     display: none;
 }
 #menu.show {
@@ -62,6 +68,9 @@ aside {
     color: white;
 }
 #menu {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
     padding-top: 47px;
 }
 aside a {
@@ -105,6 +114,8 @@ button.btn {
 }
 .multipleContainer {
     display: flex;
+    max-width: 100%;
+    flex-wrap: wrap;
     align-items: flex-start;
     margin: 20px 0;
 }
@@ -117,15 +128,6 @@ button.btn {
     box-shadow: var(--added_shadow);
     margin: 20px 0;
 }
-.multipleContainer .simpleContainer {
-    margin: 0 20px;
-}
-.multipleContainer .simpleContainer:first-child {
-    margin-left: 0;
-}
-.multipleContainer .simpleContainer:last-child {
-    margin-right: 0;
-}
 
 table {
     margin-bottom: 20px;
@@ -135,6 +137,10 @@ table th {
 }
 table tr {
     border: none;
+}
+table tbody .emptyRow {
+    background-color: transparent;
+    height: 10px;
 }
 table tbody tr td {
     padding: 20px 0;
@@ -157,7 +163,25 @@ table tbody tr td:last-child {
     justify-content: space-between;
 }
 
+.graphContainer {
+    display: inline-flex;
+    flex-direction: column;
+}
+.graphContainer .simpleContainer {
+    min-height: 200px;
+}
+
 @media screen and (min-width: 600px) {
+    .graphContainer {
+        display: inline-flex;
+        flex-direction: row;
+    }
+    .graphContainer .simpleContainer {
+        display: inline-flex;
+        margin: 1% !important;
+        max-width: 48%;
+    }
+
     #menu {
         display: block;
         padding-top: 57px;
@@ -198,5 +222,14 @@ table tbody tr td:last-child {
         width: 100%;
         padding-left: 30px;
         padding-right: 30px;
+    }
+    .multipleContainer .simpleContainer {
+        margin: 0 20px;
+    }
+    .multipleContainer .simpleContainer:first-child {
+        margin-left: 0;
+    }
+    .multipleContainer .simpleContainer:last-child {
+        margin-right: 0;
     }
 }
