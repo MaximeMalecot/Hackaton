@@ -39,14 +39,7 @@
 <div class="content">
   {% if app.user %}
       <aside id="menu">
-        <ul>
-            <li>
-                <a href="{{ path('brand_generate') }}">Test</a>
-            </li>
-            <li>
-                <a href="{{ path('app_report') }}">Reports</a>
-            </li>
-            {% if is_granted('ROLE_BRAND') and app.user.brand is not null %}
+          <ul>
                 <li>
                     <a href="{{ path('app_login') }}">
                         <i class="fa fa-th-large"></i> Dashboard
