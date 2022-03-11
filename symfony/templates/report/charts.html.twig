@@ -22,8 +22,10 @@
     {% endif %}
 </div>
 
+
 {% if product_id %}
     {% if zonedRecords is defined and zonedRecords is not null %}
+        <div id="exportableHTML">
         {% for chart in charts %}
             <div class="simpleContainer">
                 <h2>{% if loop.index % 2 == 1 %}Avant{% else %}Après{% endif %}</h2>
@@ -36,9 +38,42 @@
                 </div>
             </div>
         {% endfor %}
+        </div>
+        <button type="button" class="btn" id="export">export to PDF</button>
     {% else %}
         <p>No record found.</p>
     {% endif %}
 {% endif %}
 
+{% endblock %}
+
+{% block script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script defer type="text/javascript">
+    const pdfBtn = document.getElementById('export');
+    window.jsPDF = window.jspdf.jsPDF;
+    pdfBtn.addEventListener('click', (e) => {
+        let pdf = new jsPDF({
+            orientation: 'landscape',
+            unit: 'px',
+            format: 'a4',
+            compress: true,
+        });
+        const canvas = document.querySelectorAll("canvas");
+        let pageWidth = 400; 
+        let pageHeight = 400;
+        let index = 1;
+        canvas.forEach((canva) => {
+            pdf.addImage(canva, 'PNG', 10, 10, pageWidth, pageHeight, `img${index}`, "FAST");
+            if (index < canvas.length) {
+                pdf.addPage();
+            }
+            index++;
+        })
+    
+        pdf.save('Report.pdf');
+
+        // download the pdf
+    });
+</script>
 {% endblock %}
