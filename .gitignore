@@ -29,6 +29,8 @@ tmp
 backups
 wordpress/*
 
+db-data/
+
 wordpress/wp-content/plugins/*
 !wordpress/wp-content/plugins/.gitkeep
 

@@ -89,6 +89,7 @@
     </div>
 </div>
 
+{% block script %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script>
     document.getElementById('responsiveMenu').addEventListener('click', function() {
@@ -101,5 +102,7 @@
         {% endfor %}
     {% endfor %}
 </script>
+
+{% endblock %}
 </body>
 </html>
