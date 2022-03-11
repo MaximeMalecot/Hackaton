@@ -25,7 +25,7 @@
                 <tr>
                     <td>{{ brand.id }}</td>
                     <td>{{ brand.label }}</td>
-                    <td><img width="70px" src="{{ vich_uploader_asset(brand, 'imageFile') }}" alt="logo manquant"></td>
+                    <td><img height="20px" src="{{ vich_uploader_asset(brand, 'imageFile') }}" alt="logo manquant"></td>
                     <td>
                         <a class="cta" href="{{ path('brand_show', {'id': brand.id}) }}">Show</a>
                         <a class="cta" href="{{ path('brand_edit', {'id': brand.id}) }}">Edit</a>
