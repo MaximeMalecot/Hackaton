@@ -37,6 +37,10 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->getUser();
+            if ($user->getBrand()) {
+                $product->setBrand($user->getBrand());
+            }
             $entityManager->persist($product);
             $entityManager->flush();
 

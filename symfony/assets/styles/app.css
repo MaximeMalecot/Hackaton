@@ -170,6 +170,14 @@ table tbody tr td:last-child {
 .graphContainer .simpleContainer {
     min-height: 200px;
 }
+.simpleContainer .simpleContainer {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.statIndicator {
+    font-size: 30px;
+    margin: 0;
+}
 
 @media screen and (min-width: 600px) {
     .graphContainer {

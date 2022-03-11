@@ -45,6 +45,7 @@ security:
         - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/brand/readcsv, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/brand/generate, role: ROLE_BRAND }
         - { path: ^/brand/access, role: ROLE_BRAND }
         - { path: ^/brand, role: ROLE_ADMIN }
         - { path: ^/, role: ROLE_BRAND }

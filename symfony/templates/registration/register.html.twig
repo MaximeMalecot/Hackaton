@@ -1,8 +1,8 @@
-<!DOCTYPE html>
-
-<title>Register</title>
+{% extends 'base.html.twig' %}
 
 {% block body %}
+    <title>Register</title>
+
     {% for flashError in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
     {% endfor %}
