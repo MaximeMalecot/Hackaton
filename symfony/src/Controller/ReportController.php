@@ -16,9 +16,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Doctrine\Persistence\ManagerRegistry;
 
+#[Route('/report')]
 class ReportController extends AbstractController
 {
-    #[Route('/report', name: 'app_report')]
+    #[Route('/', name: 'app_report')]
     public function index(ManagerRegistry $doctrine, Security $security): Response
     {
         $em=$doctrine->getManager();
@@ -35,7 +36,7 @@ class ReportController extends AbstractController
         }
     }
 
-    #[Route('/report/brand/{id}', name: 'report_brand')]
+    #[Route('/brand/{id}', name: 'report_brand')]
     public function showBrandReports(Brand $brand, ProductRepository $pr): Response
     {
         return $this->render('report/products.html.twig', [ 
@@ -45,18 +46,16 @@ class ReportController extends AbstractController
         ]);
     }
 
-    #[Route('/report/product/{id}', name: 'report_product')]
+    #[Route('/product/{id}', name: 'report_product')]
     public function showProductReport(Request $request, Product $product, ManagerRegistry $doctrine): Response
     {
         $em = $doctrine->getManager();
-        if(!$request->request->get('session')){
-            $session = 1;
-        }else{
+        $tests = $em->getRepository(Test::class)->findBy(['product' => $product], ['nbSession' => 'ASC']);
+        if(!$request->query->get('session')){
+            $session = $tests[0]->getNbSession();
+        } else {
             $session = $request->query->get('session');
         }
-        $tests = $em->getRepository(Test::class)->findBy([
-            'product' => $product    
-        ]);
         $availableSessions = [];
         foreach($tests as $test){
             if($test->getNbSession() == $session){
@@ -64,9 +63,18 @@ class ReportController extends AbstractController
             }
             $availableSessions[] = $test->getNbSession();
         }
+        $zonedRecords = null;
+        foreach($records as $record){
+            $zonedRecords[$record->getCodeZone()][$record->getSkinBioSense()][] = $record;
+
+            //$zonedRecords[$record->getCodeZone()][] = $record;
+        }
+        dd($zonedRecords);
+        /*
         return $this->render('report/charts.html.twig', [
+            'product_id' => $product->getId(),
             'sessions'=> $availableSessions,
-            'records' => $records
-        ]);
+            'zonedRecords' => $zonedRecords
+        ]);*/
     }
 }

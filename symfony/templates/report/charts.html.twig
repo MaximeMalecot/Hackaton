@@ -9,15 +9,20 @@
 </style>
 <div class="example-wrapper">
 
-    {% if sessions %}
-        SESSIONS ICI </br>
-    {% else %}
-        SESSIONS PAS ICI </br>
-    {% endif %}
-    {% if records %}
-        RECORDS ICI </br>
-    {% else %}
-        SESSIONS PAS ICI </br>
+    
+    {% if product_id %}
+        {% if sessions %}
+            {% for session in sessions %}
+                <a href="{{ path('report_product', {'id': product_id, 'session': session }) }}">session {{ session }}</a>
+            {% endfor %}
+        {% else %}
+            SESSIONS PAS ICI </br>
+        {% endif %}
+        {% if records %}
+            RECORDS ICI </br>
+        {% else %}
+            SESSIONS PAS ICI </br>
+        {% endif %}
     {% endif %}
 </div>
 {% endblock %}
