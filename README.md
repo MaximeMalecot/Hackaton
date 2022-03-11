@@ -6,9 +6,8 @@ This project is an answer to WiredBeauty's call of tenders.
 
 ## Installation
 
-copy .env.test into a .env file in root directory AND /symfony directory
-
 ```bash
+cp .env.test .env && cd symfony/ && cp .env.test .env
 docker-compose build --pull --no-cache
 docker-compose up -d
 ```
