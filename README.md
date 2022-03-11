@@ -1,12 +1,27 @@
-## Getting started
+# WiredBeauty Hackaton project
+
+## Synopsis
+
+This project is an answer to WiredBeauty's call of tenders.
+
+## Installation
+
+copy .env.test into a .env file in root directory AND /symfony directory
 
 ```bash
 docker-compose build --pull --no-cache
 docker-compose up -d
 ```
 
-on php docker:
+go to [a link] http://localhost:8080/
+connect to db with credentials in docker-compose.yml
+import wordpress.sql
+
+on php-fpm docker:
 ```bash
+composer update 
+npm install
+php bin/console d:d:c
 php bin/console d:s:u --force
 ```
 
@@ -15,6 +30,6 @@ php bin/console d:s:u --force
 http://127.0.0.1
 
 # Env DB (à mettre dans .env, si pas déjà présent)
-DATABASE_URL="postgresql://postgres:password@db:5432/db?serverVersion=13&charset=utf8"
+DATABASE_URL="mysql://root:root@db:3306/symfony?serverVersion=8.0"
 ```
 
