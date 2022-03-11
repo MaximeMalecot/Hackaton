@@ -26,7 +26,7 @@
     {% if zonedRecords is defined and zonedRecords is not null %}
         {% for chart in charts %}
             <div class="simpleContainer">
-                <h2>Records</h2>
+                <h2>{% if loop.index % 2 == 1 %}Avant{% else %}Après{% endif %}</h2>
                 <div class="multipleContainer graphContainer">
                     {% for insideChart in chart %}
                         <div class="simpleContainer">
