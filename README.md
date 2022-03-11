@@ -23,12 +23,7 @@ npm install
 php bin/console d:d:c
 php bin/console d:s:u --force
 ```
+Front server can now be found [here](http://127.0.0.1:8888)
 
-```
-# URL
-http://127.0.0.1
-
-# Env DB (à mettre dans .env, si pas déjà présent)
-DATABASE_URL="mysql://root:root@db:3306/symfony?serverVersion=8.0"
-```
+And back server [here](http://127.0.0.1)
 
