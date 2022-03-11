@@ -53,13 +53,6 @@
     const pdfBtn = document.getElementById('export');
     window.jsPDF = window.jspdf.jsPDF;
     pdfBtn.addEventListener('click', (e) => {
-        /*let pdf = new jsPDF();
-        let source = document.getElementById('exportableHTML');
-        pdf.fromHTML(source, 15, 15,
-            {
-                'width': 180
-            });*/
-
         let pdf = new jsPDF({
             orientation: 'landscape',
             unit: 'px',
@@ -67,14 +60,11 @@
             compress: true,
         });
         const canvas = document.querySelectorAll("canvas");
-        // here my size are in pixels since I configured that in the obj instance
         let pageWidth = 400; 
         let pageHeight = 400;
         let index = 1;
-        // traverse the array of canvas 
         canvas.forEach((canva) => {
             pdf.addImage(canva, 'PNG', 10, 10, pageWidth, pageHeight, `img${index}`, "FAST");
-            // so as to not end up with an extra pdf page at the end of the iteration
             if (index < canvas.length) {
                 pdf.addPage();
             }
