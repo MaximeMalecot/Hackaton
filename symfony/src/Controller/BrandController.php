@@ -88,8 +88,8 @@ class BrandController extends AbstractController
                         $record->setCodeZone(intval($row[$request->request->get('zone')]));
                         $record->setSkinBioSense(intval($row[$request->request->get('biosens')]));
                         $record->setMeasure(floatval($row[$request->request->get('result')]));
-                        $record->setTest($test);
                         $em->persist($record);
+                        $test->addRecord($record);
                     }
                     $em->flush();
                     $this->addFlash('success', 'Votre csv a bien été importé');

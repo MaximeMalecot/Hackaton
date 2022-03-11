@@ -25,7 +25,8 @@ class UserFixtures extends Fixture
     {
         $brand = (new Brand())
             ->setLabel('BrandTest')
-            ->setIcon('padicon');
+            ->setIcon('padicon')
+            ->setUpdatedAt(new \DateTime());
         $manager->persist($brand);
         $admin = (new User())
             ->setEmail('admin@admin')
