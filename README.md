@@ -7,7 +7,7 @@ This project is an answer to WiredBeauty's call of tenders.
 ## Installation
 
 ```bash
-cp .env.test .env && cd symfony/ && cp .env.test .env
+cp .env.test .env && cp symfony/.env.test symfony/.env
 docker-compose build --pull --no-cache
 docker-compose up -d
 ```
