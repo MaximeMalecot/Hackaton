@@ -10,10 +10,10 @@ services:
     image: mysql:8.0
     restart: always
     environment:
-        MYSQL_PASSWORD: symfony
-        MYSQL_DB: symfony
-        MYSQL_USER: symfony
-        MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: symfony
+      MYSQL_DB: symfony
+      MYSQL_USER: symfony
+      MYSQL_ROOT_PASSWORD: root
     volumes:
       - db-data:/var/lib/postgresql/data:rw
     ports:
@@ -85,4 +85,3 @@ services:
 volumes:
   db-data: {}
   app-cache: {}
-
