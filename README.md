@@ -16,7 +16,7 @@ go to [adminer](http://localhost:8080/) and connect to db with credentials in do
 
 import wordpress.sql
 
-on php-fpm docker:
+on php container with docker:
 ```bash
 composer update 
 npm install
