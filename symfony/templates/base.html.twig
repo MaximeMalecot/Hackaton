@@ -7,6 +7,10 @@
            and uncomment the following Encore helpers to start using Symfony UX #}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
@@ -46,18 +50,18 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ path('app_login') }}">
-                        <i class="fa fa-line-chart"></i> Tests
+                    <a href="{{ path('brand_generate') }}">
+                        <i class="fa fa-line-chart"></i> New test
                     </a>
                 </li>
                 <li>
-                    <a href="{{ path('app_login') }}">
+                    <a href="{{ path('app_report') }}">
                         <i class="fa fa-pie-chart"></i> Reports
                     </a>
                 </li>
                 {% if is_granted('ROLE_BRAND') and app.user is not null and app.user.brand is not null %}
                     <li>
-                        <a href="{{ path('brand_access', {'id': app.user.brand.id}) }}">
+                        <a href="{{ path('app_product_index', {'id': app.user.brand.id}) }}">
                             <i class="fa fa-star"></i> Produits
                         </a>
                     </li>

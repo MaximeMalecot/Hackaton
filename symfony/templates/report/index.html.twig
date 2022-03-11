@@ -3,39 +3,39 @@
 {% block title %}Hello ReportController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div class="buttonTitle">
+    <h1>Reports</h1>
 
-<div class="example-wrapper">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Label</th>
-                <th>Icon</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% if brands %}
-            {% for brand in brands %}
-                <tr>
-                    <td>{{ brand.id }}</td>
-                    <td>{{ brand.label }}</td>
-                    <td>{{ brand.icon }}</td>
-                    <td>
-                        <a href="{{ path('report_brand', {'id': brand.id}) }}">show</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endif %}
-        </tbody>
-    </table>
+    <a class="cta" href="{{ path('brand_generate') }}">Create new test</a>
 </div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Label</th>
+            <th>Icon</th>
+            <th>actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% if brands %}
+        {% for brand in brands %}
+            <tr>
+                <td>{{ brand.id }}</td>
+                <td>{{ brand.label }}</td>
+                <td><img height="20px" src="{{ vich_uploader_asset(brand, 'imageFile') }}"></td>
+                <td>
+                    <a class="cta" href="{{ path('report_brand', {'id': brand.id}) }}">Show</a>
+                </td>
+            </tr>
+            <tr class="emptyRow"></tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="4">no records found</td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>
 {% endblock %}

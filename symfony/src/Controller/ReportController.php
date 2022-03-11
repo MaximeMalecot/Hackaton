@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Brand;
 use App\Entity\Product;
+use App\Entity\Record;
 use App\Entity\Test;
 use App\Repository\ProductRepository;
 
@@ -15,10 +16,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Component\Security\Core\Security;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Symfony\UX\Chartjs\Model\Chart;
 
 #[Route('/report')]
 class ReportController extends AbstractController
 {
+    const SKIN_BIOSENSE = [
+        1 => 'Protect',
+        2 => 'Hydrate',
+        3 => 'Barrier'
+    ];
+
     #[Route('/', name: 'app_report')]
     public function index(ManagerRegistry $doctrine, Security $security): Response
     {
@@ -47,7 +56,7 @@ class ReportController extends AbstractController
     }
 
     #[Route('/product/{id}', name: 'report_product')]
-    public function showProductReport(Request $request, Product $product, ManagerRegistry $doctrine): Response
+    public function showProductReport(Request $request, Product $product, ManagerRegistry $doctrine, ChartBuilderInterface $chartBuilder): Response
     {
         $em = $doctrine->getManager();
         $tests = $em->getRepository(Test::class)->findBy(['product' => $product], ['nbSession' => 'ASC']);
@@ -69,12 +78,57 @@ class ReportController extends AbstractController
 
             //$zonedRecords[$record->getCodeZone()][] = $record;
         }
-        dd($zonedRecords);
-        /*
+
+        $chartsByZone = [];
+        foreach ($zonedRecords as $zonedRecord) {
+            $chartsBySkinBioSense = [];
+            foreach ($zonedRecord as $skinBioSenseRecords) {
+                $chart = $chartBuilder->createChart(Chart::TYPE_BAR);
+
+                $values = [];
+                foreach ($skinBioSenseRecords as $record) {
+                    $index = strval($record->getMeasure());
+                    if (!key_exists($index, $values)) {
+                        $values[$index] = 0;
+                    }
+                    $values[$index] ++;
+                }
+                ksort($values);
+
+                $labels = array_map(
+                    function($index) { return floatval($index); },
+                    array_keys($values)
+                );
+                dump($labels);
+                $data = [];
+                foreach ($values as $value) {
+                    array_push($data, $value);
+                }
+                dump($data);
+
+                $chart->setData([
+                    'labels' => $labels,
+                    'datasets' => [
+                        [
+                            'label' => self::SKIN_BIOSENSE[$skinBioSenseRecords[0]->getSkinBioSense()],
+                            'backgroundColor' => 'rgb(255, 99, 132)',
+                            'borderColor' => 'rgb(255, 99, 132)',
+                            'data' => $data,
+                        ],
+                    ],
+                ]);
+
+                $chartsBySkinBioSense[] = $chart;
+            }
+
+            $chartsByZone[] = $chartsBySkinBioSense;
+        }
+
         return $this->render('report/charts.html.twig', [
             'product_id' => $product->getId(),
             'sessions'=> $availableSessions,
-            'zonedRecords' => $zonedRecords
-        ]);*/
+            'zonedRecords' => $zonedRecords,
+            'charts' => $chartsByZone
+        ]);
     }
 }
