@@ -12,7 +12,7 @@ docker-compose build --pull --no-cache
 docker-compose up -d
 ```
 
-go to [a link] http://localhost:8080/
+go to http://localhost:8080/
 connect to db with credentials in docker-compose.yml
 import wordpress.sql
 
