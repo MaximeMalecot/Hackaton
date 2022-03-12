@@ -22,6 +22,7 @@ composer update
 npm install
 php bin/console d:d:c
 php bin/console d:s:u --force
+npm run dev
 ```
 Front solution can now be found [here](http://127.0.0.1:8888)
 
