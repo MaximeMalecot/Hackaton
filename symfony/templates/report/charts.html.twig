@@ -6,8 +6,8 @@
 <h1>Report</h1>
 
 <div class="multipleContainer">
-    {% if product_id %}
-        {% if sessions %}
+    {% if product_id is defined %}
+        {% if sessions is defined %}
             {% for session in sessions %}
                 <div class="simpleContainer">
                     <div class="buttonTitle">
@@ -23,7 +23,7 @@
 </div>
 
 
-{% if product_id %}
+{% if product_id is defined %}
     {% if zonedRecords is defined and zonedRecords is not null %}
         <div id="exportableHTML">
         {% for chart in charts %}

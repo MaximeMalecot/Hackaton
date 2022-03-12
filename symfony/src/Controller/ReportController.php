@@ -60,6 +60,12 @@ class ReportController extends AbstractController
     {
         $em = $doctrine->getManager();
         $tests = $em->getRepository(Test::class)->findBy(['product' => $product], ['nbSession' => 'ASC']);
+        if(!$tests){
+            return $this->render('report/charts.html.twig', [
+            'product_id' => $product->getId()
+            ]
+        );
+        }
         if(!$request->query->get('session')){
             $session = $tests[0]->getNbSession();
         } else {

@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>Report generation</h1>
-    <form id="apiForm" method="post" enctype="multipart/form-data">
+    <form id="apiForm" method="post" class="simpleContainer" enctype="multipart/form-data">
         <label for="report">Votre rapport</label>
         <input id="report" name="report" type="file" accept="text/csv"/>
         <div id="formSelect" style="display:none">
@@ -23,7 +23,7 @@
             <label for="result" >Colonne mesure</label>
             <select id="result" name="result">
             </select>
-            <button type="submit" name="submit">Save</button>
+            <button type="submit" class="btn" name="submit">Save</button>
         </div>
     </form>
 
