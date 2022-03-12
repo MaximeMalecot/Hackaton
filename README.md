@@ -24,6 +24,10 @@ php bin/console d:d:c
 php bin/console d:s:u --force
 npm run dev
 ```
+wordpress credentials are : 
+wiredbeauty
+wordpress_wired
+
 Front solution can now be found [here](http://127.0.0.1:8888)
 
 And back one [here](http://127.0.0.1)
